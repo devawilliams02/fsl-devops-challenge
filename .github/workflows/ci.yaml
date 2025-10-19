@@ -1,7 +1,7 @@
 name: CI Pipeline
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '15'   # You can change to 14 if your app specifically needs Node 14
+          node-version: '15'   
 
       - name: Install dependencies
         run: npm install

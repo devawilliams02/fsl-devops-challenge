@@ -3,34 +3,38 @@ name: CI Pipeline
 on:
   pull_request:
     branches:
-      - main
+      - devel
+      - stage
+      - prod
 
 jobs:
-  build:
+  build-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '15'   
+          node-version: 15
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run Linter
+      - name: Run ESLint
         run: npm run lint
 
-      - name: Run Formatter
-        run: npm run prettier -- --write
+      - name: Run Prettier
+        run: npm run prettier --write
 
-      - name: Run Tests
-        env:
-          CI: true
-        run: npm test
+      - name: Run tests
+        run: CI=true npm run test
+
+      - name: Build application
+        run: npm run build
+
 
       - name: Build Project
         run: npm run build
